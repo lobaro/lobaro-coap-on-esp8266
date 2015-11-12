@@ -1,0 +1,3 @@
+[submodule "user/lobaro-coap"]
+	path = user/lobaro-coap
+	url = https://github.com/Lobaro/lobaro-coap.git
