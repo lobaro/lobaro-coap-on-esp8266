@@ -15,14 +15,15 @@ FW_BASE		= firmware
 XTENSA_TOOLS_ROOT ?= C:\Espressif\xtensa-lx106-elf\bin
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= C:\Espressif\ESP8266_SDK
+#  SDK_BASE	?= C:\Espressif\ESP8266_SDK
+ SDK_BASE	?= C:\Espressif\ESP8266_SDK_141
 SDK_TOOLS	?= C:\Espressif\utils
 
 # esptool path and port
 ESPTOOL ?= $(SDK_TOOLS)/esptool.exe
-ESPPORT ?= COM110
+ESPPORT ?= COM7
 # Baud rate for programmer
- BAUD ?= 256000
+ BAUD ?= 921600
 #BAUD ?= 512000
 
 # SPI_SPEED = 40, 26, 20, 80
@@ -119,7 +120,7 @@ endif
 TARGET = app
 
 # which modules (subdirectories) of the project to include in compiling
-MODULES	= driver user
+MODULES	= driver user user/lobaro-coap user/lobaro-coap/option-types user/lobaro-coap/interface/_common user/lobaro-coap/interface/esp8266 user/resources
 EXTRA_INCDIR = include $(SDK_BASE)/../extra/include
 
 # libraries used in this project, mainly provided by the SDK
