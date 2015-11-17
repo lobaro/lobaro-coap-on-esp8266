@@ -31,10 +31,13 @@ LOCAL void ICACHE_FLASH_ATTR timer_cb(void *arg)
 		ets_uart_printf("...connecting to remote wifi access point...\r\n");
 	}else if(conStatus == STATION_WRONG_PASSWORD && conStatus!=lastConStatus){
 		ets_uart_printf("(!!!) Wrong Password!\r\n");
+		wifi_station_disconnect();
 	}else if(conStatus == STATION_NO_AP_FOUND && conStatus!=lastConStatus){
 		ets_uart_printf("(!!!) No AP Found!\r\n");
+		wifi_station_disconnect();
 	}else if(conStatus == STATION_CONNECT_FAIL && conStatus!=lastConStatus){
 		ets_uart_printf("(!!!) Connect Fail\r\n");
+		wifi_station_disconnect();
 	}
 
 	lastConStatus = conStatus;
