@@ -30,7 +30,7 @@ static CoAP_HandlerResult_t ICACHE_FLASH_ATTR ResWifi_ReqHandler(CoAP_Message_t*
 
 	if(!key_ok){
 		const char infoStr[] = "Usage: coap://[host:port]/[...]/?key=KEY&" SSID_QUERY_PREFIX "WIFI-SSID&" PW_QUERY_PREFIX "WIFI-PASSWORD" "\r\nUse only over softAP connection!";
-		CoAP_SetPayloadBlockwise(pReq, pResp, infoStr, coap_strlen(infoStr), true);
+		CoAP_SetPayloadBlockwise(pReq, pResp, (uint8_t*)infoStr, coap_strlen(infoStr), true);
 		pResp->Code = RESP_ERROR_UNAUTHORIZED_4_01;
 	    return HANDLER_OK;
 	}
@@ -88,7 +88,7 @@ static CoAP_HandlerResult_t ICACHE_FLASH_ATTR ResWifi_ReqHandler(CoAP_Message_t*
 			else return HANDLER_ERROR;
 		}else {
 			const char infoStr[] = "Usage: coap://[host:port]/[...]/?key=KEY&" SSID_QUERY_PREFIX "WIFI-SSID&" PW_QUERY_PREFIX "WIFI-PASSWORD" "\r\nUse only over softAP connection!";
-			CoAP_SetPayloadBlockwise(pReq, pResp, infoStr, coap_strlen(infoStr), true);
+			CoAP_SetPayloadBlockwise(pReq, pResp, (uint8_t*)infoStr, coap_strlen(infoStr), true);
 			pResp->Code=RESP_ERROR_BAD_REQUEST_4_00;
 		}
 	}//end "PUT"

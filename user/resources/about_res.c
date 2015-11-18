@@ -29,7 +29,7 @@ static CoAP_HandlerResult_t ICACHE_FLASH_ATTR ResAbout_ReqHandler(CoAP_Message_t
 	static uint16_t payloadSize = sizeof(CoapInfoStringInFlash)-1;
 
 	if(pReq->Code == REQ_GET) {
-		CoAP_SetPayloadBlockwise(pReq, pResp, &(CoapInfoStringInFlash[0]), payloadSize, false);
+		CoAP_SetPayloadBlockwise(pReq, pResp, (uint8_t*)&(CoapInfoStringInFlash[0]), payloadSize, false);
 	} else {
 		pResp->Code=RESP_ERROR_BAD_REQUEST_4_00;
 	}
