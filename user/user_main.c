@@ -67,10 +67,13 @@ void init_done(void){
 	Create_About_Resource();
 	Create_Wifi_Resource();
 	Create_Wifi_Scan_Resource();
+	Create_Led_Resource();
 	CoAP_ESP8266_CreateInterfaceSocket(0, &CoAP_conn, 5683, CoAP_onNewPacketHandler, CoAP_ESP8266_SendDatagram);
 	ets_uart_printf("- CoAP init done! Used CoAP ram memory (poolsize = %d bytes):\r\n", COAP_RAM_TOTAL_BYTES); //note: static ram footprint depends primary on resource count+uri lengths
 	coap_mem_defineStaticMem();
 	coap_mem_stats();
+
+
 }
 
 void user_init(void)

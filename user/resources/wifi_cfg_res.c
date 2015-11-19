@@ -58,7 +58,7 @@ static CoAP_HandlerResult_t ICACHE_FLASH_ATTR ResWifi_ReqHandler(CoAP_Message_t*
 		for(pOpt =pReq->pOptionsList ;pOpt != NULL; pOpt = pOpt->next) { //iterate over all options of request and look for uri-query entries
 
 			if(!ssid_found){
-				pVal = CoAP_UriQuery_GetValueAfterPrefix(pOpt, SSID_QUERY_PREFIX, &ValLen);
+				pVal = CoAP_GetUriQueryVal(pOpt, SSID_QUERY_PREFIX, &ValLen);
 				if(pVal && ValLen < 32) {
 					coap_memcpy(cfg.ssid, pVal, ValLen);
 					cfg.ssid[ValLen] = 0; //cstring termination
@@ -68,7 +68,7 @@ static CoAP_HandlerResult_t ICACHE_FLASH_ATTR ResWifi_ReqHandler(CoAP_Message_t*
 			}
 
 			if(!pw_found){
-				pVal = CoAP_UriQuery_GetValueAfterPrefix(pOpt, PW_QUERY_PREFIX, &ValLen);
+				pVal = CoAP_GetUriQueryVal(pOpt, PW_QUERY_PREFIX, &ValLen);
 				if(pVal && ValLen < 64) {
 					coap_memcpy(cfg.password, pVal, ValLen);
 					cfg.password[ValLen] = 0; //cstring termination
