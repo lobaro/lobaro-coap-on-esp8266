@@ -37,7 +37,7 @@ void ICACHE_FLASH_ATTR init_done(void) {
 	Create_Wifi_Scan_Resource();
 	Create_Led_Resource();
 
-	ets_uart_printf("- CoAP init done! Used CoAP ram memory (poolsize = %d bytes):\r\n", COAP_RAM_TOTAL_BYTES); //note: static ram footprint depends primary on resource count+uri lengths
+	ets_uart_printf("- CoAP init done! Used CoAP ram memory:\r\n"); //note: static ram footprint depends primary on resource count+uri lengths
 	coap_mem_defineStaticMem();
 	coap_mem_stats();
 
