@@ -4,7 +4,6 @@
 
 #include "../lobaro-coap/coap.h"
 #include "wifi_cfg_res.h"
-
 CoAP_Res_t* pWifi_Res = NULL;
 
 //...?key=WIFI_RES_KEY... must be provided to get/put to the wifi resource

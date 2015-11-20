@@ -21,18 +21,22 @@ LOCAL os_timer_t MainLoop_timer;
 
 LOCAL void ICACHE_FLASH_ATTR mainLoopTimer_cb(void *arg)
 {
-	if(CoAP_ESP8266_TxSocketIdle)
+	if(CoAP_ESP8266_States.TxSocketIdle)
 		CoAP_doWork();
 }
 
 void ICACHE_FLASH_ATTR init_done(void) {
-	CoAP_Init();
+
+	static uint8_t CoAP_WorkMemory[4096];
+	CoAP_Init(CoAP_WorkMemory, 4096);
+	CoAP_ESP8266_CreateInterfaceSocket(0, &CoAP_conn, 5683, CoAP_onNewPacketHandler, CoAP_ESP8266_SendDatagram);
+
 	Create_RTC_Resource();
 	Create_About_Resource();
 	Create_Wifi_Resource();
 	Create_Wifi_Scan_Resource();
 	Create_Led_Resource();
-	CoAP_ESP8266_CreateInterfaceSocket(0, &CoAP_conn, 5683, CoAP_onNewPacketHandler, CoAP_ESP8266_SendDatagram);
+
 	ets_uart_printf("- CoAP init done! Used CoAP ram memory (poolsize = %d bytes):\r\n", COAP_RAM_TOTAL_BYTES); //note: static ram footprint depends primary on resource count+uri lengths
 	coap_mem_defineStaticMem();
 	coap_mem_stats();
@@ -48,7 +52,7 @@ void user_init(void) {
 	uart_init(BIT_RATE_115200, BIT_RATE_115200);
 	ets_uart_printf("\r\n\r\nLobaro-CoAP on ESP8266 Demo!\r\nwww.lobaro.com\r\n\r\n");
 
-	//Config Device
+	//Config ESP8266 network
 	CoAP_ESP8266_ConfigDevice();
 	system_init_done_cb(init_done);
 }
