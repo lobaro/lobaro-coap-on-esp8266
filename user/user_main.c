@@ -27,18 +27,19 @@ LOCAL void ICACHE_FLASH_ATTR mainLoopTimer_cb(void *arg)
 
 void ICACHE_FLASH_ATTR init_done(void) {
 
-	static uint8_t CoAP_WorkMemory[4096];
+	static uint8_t CoAP_WorkMemory[4096]; //Working memory of CoAPs internal memory allocator
 	CoAP_Init(CoAP_WorkMemory, 4096);
 	CoAP_ESP8266_CreateInterfaceSocket(0, &CoAP_conn, 5683, CoAP_onNewPacketHandler, CoAP_ESP8266_SendDatagram);
 
-	Create_RTC_Resource();
-	Create_About_Resource();
-	Create_Wifi_Resource();
-	Create_Wifi_Scan_Resource();
-	Create_Led_Resource();
+	Create_Wifi_IPs_Resource(); 		//example of simple GET resource
+	Create_About_Resource();			//example of large resource (blockwise transfers)
+	Create_Wifi_Config_Resource(); 		//example of uri-query usage
+	Create_RTC_Resource(); 				//example of observable resource
+	Create_Led_Resource(); 				//example of observable resource triggered by itself + uri-query usage
+	Create_Wifi_Scan_Resource(); 		//example of longer lasting "postponed" resource with two responses (1. empty ACK, 2. actual resource)
 
 	ets_uart_printf("- CoAP init done! Used CoAP ram memory:\r\n"); //note: static ram footprint depends primary on resource count+uri lengths
-	coap_mem_defineStaticMem();
+	coap_mem_determinateStaticMem();
 	coap_mem_stats();
 
 	// Set up a "main-loop" timer

@@ -19,13 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *******************************************************************************/
-#ifndef INCLUDE_RTC_RES_H_
-#define INCLUDE_RTC_RES_H_
+/*
+ * wifi.h
+ *
+ *  Created on: 23.11.2015
+ *      Author: Tobias
+ */
 
-CoAP_Res_t*  Create_RTC_Resource();
-extern CoAP_Res_t* pRTC_Res;
+#ifndef USER_RESOURCES_WIFI_IP_H_
+#define USER_RESOURCES_WIFI_IP_H_
+
+CoAP_Res_t* ICACHE_FLASH_ATTR Create_Wifi_IPs_Resource();
 
 
-
-
-#endif /* INCLUDE_COAP_RESOURCES_H_ */
+#endif /* USER_RESOURCES_WIFI_IP_H_ */

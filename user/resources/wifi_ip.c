@@ -19,13 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *******************************************************************************/
-#ifndef INCLUDE_RTC_RES_H_
-#define INCLUDE_RTC_RES_H_
+#include <os_type.h>
+#include <osapi.h>
+#include <user_interface.h>
 
-CoAP_Res_t*  Create_RTC_Resource();
-extern CoAP_Res_t* pRTC_Res;
+#include "../lobaro-coap/coap.h"
+
+CoAP_Res_t* pWifi_ip_Res = NULL;
+
+static CoAP_HandlerResult_t ICACHE_FLASH_ATTR RequestHandler(CoAP_Message_t* pReq, CoAP_Message_t* pResp) {
+
+	struct ip_info ipconfig;
+	char payloadTemp[250];
+	char* pStrWorking = payloadTemp;
+
+	if(wifi_get_ip_info(STATION_IF, &ipconfig))
+		pStrWorking+= coap_sprintf((char*)pStrWorking, "Station: %d.%d.%d.%d\r\n",IP2STR(&ipconfig.ip));
 
 
+	if(wifi_get_ip_info(SOFTAP_IF, &ipconfig))
+		pStrWorking+= coap_sprintf((char*)pStrWorking, "SoftAP: %d.%d.%d.%d\r\n",IP2STR(&ipconfig.ip));
+
+	if(pStrWorking!=payloadTemp) {
+		CoAP_SetPayload(pReq, pResp, (uint8_t*)payloadTemp, coap_strlen(payloadTemp), true);
+	}else pResp->Code=RESP_INTERNAL_SERVER_ERROR_5_00;
+
+	return HANDLER_OK;
+}
 
 
-#endif /* INCLUDE_COAP_RESOURCES_H_ */
+CoAP_Res_t* ICACHE_FLASH_ATTR Create_Wifi_IPs_Resource() {
+	CoAP_ResOpts_t Options = {.Cf = COAP_CF_TEXT_PLAIN, .Flags = RES_OPT_GET };
+	return (pWifi_ip_Res=CoAP_CreateResource("wifi/ipconfig", "ESP8266 IP configuration",Options, RequestHandler, NULL));
+}
