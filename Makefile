@@ -16,7 +16,7 @@ XTENSA_TOOLS_ROOT ?= C:\Espressif\xtensa-lx106-elf\bin
 
 # base directory of the ESP8266 SDK package, absolute
 #  SDK_BASE	?= C:\Espressif\ESP8266_SDK
- SDK_BASE	?= C:\Espressif\ESP8266_SDK_141
+SDK_BASE	?= C:\Espressif\ESP8266_SDK_150
 SDK_TOOLS	?= C:\Espressif\utils
 
 # esptool path and port
@@ -124,13 +124,13 @@ MODULES	= driver user user/lobaro-coap user/lobaro-coap/option-types user/lobaro
 EXTRA_INCDIR = include $(SDK_BASE)/../extra/include
 
 # libraries used in this project, mainly provided by the SDK
-LIBS = c gcc hal phy pp net80211 lwip wpa main
+LIBS = c gcc hal phy pp net80211 lwip wpa crypto main
 
 # compiler flags using during compilation of source files
 CFLAGS = -Os -g -O2 -std=gnu90 -Wpointer-arith -Wundef -Werror -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals -mno-serialize-volatile -D__ets__ -DICACHE_FLASH
 
 # linker flags used to generate the main object file
-LDFLAGS = -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static
+LDFLAGS = -nostdlib -Wl,--no-check-sections -u call_user_start -Wl,-static 
 
 # linker script used for the above linkier step
 LD_SCRIPT = eagle.app.v6.ld
